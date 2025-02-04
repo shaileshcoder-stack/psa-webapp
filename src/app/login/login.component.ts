@@ -1,28 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { HttpErrorResponse } from '@angular/common/http';  // Import HttpErrorResponse
+import { AuthserviceService } from '../authservice.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  username: string = '';
+  password: string = '';
 
-  ngOnInit(): void {
-  }
+  constructor(private router: Router, public authService: AuthserviceService) {}
+
+  ngOnInit(): void {}
+
   login() {
-    // Simulate login logic, like calling a backend API and getting a token
-    localStorage.setItem('userToken', 'your_token_value');  // Simulating a token being stored after login
-
-    // Get the stored redirect URL (if any)
-    const redirectUrl = sessionStorage.getItem('redirectUrl') || '/home';
-
-    // Clear the stored redirect URL
-    sessionStorage.removeItem('redirectUrl');
-
-    // Redirect to the intended page or default to home
-    this.router.navigate([redirectUrl]);
+    this.authService.login(this.username, this.password).subscribe(
+      (response: { token: string }) => {  // Explicitly typing 'response'
+        const token = response.token;
+        this.authService.storeToken(token);
+        this.router.navigate(['/home']); // Navigate to the home page after successful login
+      },
+      (error: HttpErrorResponse) => {  // Explicitly typing 'error' as HttpErrorResponse
+        console.error('Login failed', error);
+      }
+    );
   }
 }

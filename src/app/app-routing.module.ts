@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGaurdService } from './auth-gaurd.service';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, canActivate: [AuthGaurdService] },
-  { path: 'login', component: LoginComponent }
+  { path: 'home', component: HomeComponent,  },
+  { path: 'login', component: LoginComponent },
+  { path: 'products', component: ProductsComponent }, // route to the products component
 ];
 
 @NgModule({

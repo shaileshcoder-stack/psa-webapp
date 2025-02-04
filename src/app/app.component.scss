@@ -1,3 +1,21 @@
-.highlight {
-    background-color: yellow;
+/* SCSS with nested selectors */
+nav {
+  background-color: #333;
+  
+  ul {
+    list-style-type: none;
+    
+    li {
+      display: inline;
+      
+      a {
+        color: white;
+        text-decoration: none;
+        
+        &:hover {
+          color: orange;
+        }
+      }
+    }
   }
+}
